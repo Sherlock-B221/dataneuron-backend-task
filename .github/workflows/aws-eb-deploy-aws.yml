@@ -1,7 +1,7 @@
 name: Deploy Node app on AWS Elastic Beanstalk
 
 env:
-  APP_NAME: dataneuron-backend
+  APP_NAME: Dataneuronbackend-env-1
   S3_BUCKET: dataneuron-backend
   AWS_REGION: us-east-1
   AWS_PLATFORM: Docker
@@ -58,7 +58,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install awsebcli --upgrade
           eb --version
-
+          export AWS_ACCESS_KEY_ID=${{secrets.AWS_ACCESS_KEY_ID}}
+          export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_SECRET_ACCESS_KEY}}
           echo "Deploy init"
           eb init -i ${{env.APP_NAME}} -p ${{env.AWS_PLATFORM}} -k ${{secrets.AWS_ID}} --region ${{env.AWS_REGION}}
           eb deploy ${{env.APP_NAME}} --version ${AWS_VERSION_LABEL}
